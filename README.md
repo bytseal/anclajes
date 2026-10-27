@@ -24,7 +24,11 @@ Aquí **no hay datos personales**: solo huellas y un identificador seudónimo y 
    ```bash
    node scripts/monitor.mjs
    ```
-3. **Una etiqueta concreta:** descarga su prueba desde la página de la etiqueta («Descargar la prueba») y compruébala con el verificador de BYT, que contrasta la prueba con la raíz publicada aquí.
+3. **Una etiqueta concreta:** descarga su prueba desde la página de la etiqueta («Descargar la prueba») y, con este repositorio descargado:
+   ```bash
+   node scripts/verificar-prueba.mjs ruta/a/proof.json
+   ```
+   Comprueba las huellas, la ruta hasta la raíz del día y que esa raíz es la publicada aquí. Solo necesita Node.js; no usa nada de BYT.
 
 ## Cómo funciona
 
