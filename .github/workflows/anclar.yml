@@ -1,0 +1,49 @@
+# Anclaje diario de BYT. Se ejecuta cada noche a las 00:10 UTC (01:10 en España en
+# invierno) y también a mano: Actions → «Anclaje diario» → Run workflow.
+name: Anclaje diario
+
+on:
+  schedule:
+    - cron: "10 0 * * *"
+  workflow_dispatch:
+    inputs:
+      dia:
+        description: "Día a anclar (AAAA-MM-DD). Vacío = ayer."
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: anclajes
+  cancel-in-progress: false
+
+jobs:
+  anclar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Anclar el día (y comprobar la raíz por separado)
+        run: node scripts/anclar.mjs ${{ inputs.dia }}
+      - name: Sellar las raíces nuevas en Bitcoin (OpenTimestamps)
+        run: |
+          pip install --quiet opentimestamps-client
+          for raiz in anclajes/*/raiz.txt; do
+            [ -f "$raiz.ots" ] || ots stamp "$raiz"
+          done
+      - name: Monitor (días seguidos y cadenas completas)
+        run: node scripts/monitor.mjs
+      - name: Publicar
+        run: |
+          git config user.name "BYT anclaje"
+          git config user.email "bytseal@bytseal.com"
+          git add anclajes
+          if git diff --cached --quiet; then echo "Nada nuevo que publicar."; exit 0; fi
+          git commit -m "Anclaje del $(ls anclajes | tail -1)"
+          git push

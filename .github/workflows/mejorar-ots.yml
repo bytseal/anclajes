@@ -1,0 +1,45 @@
+# Las pruebas de OpenTimestamps se completan cuando Bitcoin confirma el bloque
+# (unas horas). Cada 6 horas se actualizan las que aún están pendientes.
+name: Confirmar en Bitcoin
+
+on:
+  schedule:
+    - cron: "40 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: anclajes
+  cancel-in-progress: false
+
+jobs:
+  mejorar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Actualizar las pruebas pendientes
+        run: |
+          pip install --quiet opentimestamps-client
+          shopt -s nullglob
+          for ots in anclajes/*/raiz.txt.ots; do
+            ots upgrade "$ots" || echo "Aún pendiente: $ots"
+          done
+          rm -f anclajes/*/raiz.txt.ots.bak
+      - name: Publicar
+        run: |
+          git config user.name "BYT anclaje"
+          git config user.email "bytseal@bytseal.com"
+          git add anclajes
+          if git diff --cached --quiet; then echo "Nada nuevo."; exit 0; fi
+          git commit -m "Confirmaciones de Bitcoin actualizadas"
+          git push
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Monitor
+        run: node scripts/monitor.mjs
