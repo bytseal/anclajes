@@ -1,0 +1,26 @@
+{
+  "v": 1,
+  "dia": "2026-10-29",
+  "raiz": "8c4ef24806615e4407dc482521deeb744bd2bce6108bd2eeb6af187d9e84b36a",
+  "total": 2,
+  "hojas": [
+    {
+      "id": "26af63d8-d3f3-470f-8c8d-3ea0a9ed5393",
+      "seq": 1,
+      "chain_id": "f40aefbe-b0e4-4be4-a570-72a031a21c33",
+      "leaf_hash": "9c34fbccbc2fb691a563a81836e837631a82708c7ce5a8c1cf4f83fe9b37afcc",
+      "link_hash": "93ae7f78f3774135a462917689cc481b0d9f6f0ca2ec545425d5b1f3e4b9ab94",
+      "sealed_at": "2026-10-29T19:53:11Z",
+      "prev_link_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "id": "0a328465-16d7-4c18-8591-1d6204645a06",
+      "seq": 2,
+      "chain_id": "f40aefbe-b0e4-4be4-a570-72a031a21c33",
+      "leaf_hash": "a4a74f1d151112ad6ecc50726b547ed41bddcd9009abfb0d688fd1f2e8c7f141",
+      "link_hash": "e2b3c7d415fc043eb646615b26f6df59a2289aa9882bcbc3c834bec649e152c7",
+      "sealed_at": "2026-10-29T19:55:05Z",
+      "prev_link_hash": "93ae7f78f3774135a462917689cc481b0d9f6f0ca2ec545425d5b1f3e4b9ab94"
+    }
+  ]
+}
