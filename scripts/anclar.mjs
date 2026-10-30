@@ -13,8 +13,10 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { linkHash, raizMerkle } from "./comun.mjs";
 
-const URL_SUPABASE = process.env.SUPABASE_URL ?? "https://nywiqevgtpinohforevt.supabase.co";
-const CLAVE_PUBLICA = process.env.SUPABASE_PUBLISHABLE_KEY ?? "sb_publishable_mUR155-PhFC-1yVafrV1og_3UF-8Ons";
+// Base de datos de PRODUCCIÓN (BYT-produccion). Solo se ancla producción; la base de
+// desarrollo no se publica aquí. La clave es la pública de Supabase (pública por diseño).
+const URL_SUPABASE = process.env.SUPABASE_URL ?? "https://ncqpqmomyfzkdjaatijx.supabase.co";
+const CLAVE_PUBLICA = process.env.SUPABASE_PUBLISHABLE_KEY ?? "sb_publishable_qEYmxngA8cxo_9PKC9BadA__YxhqkYx";
 
 const ayer = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
 const dia = process.argv[2] ?? ayer;
